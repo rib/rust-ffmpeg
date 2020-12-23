@@ -1,11 +1,7 @@
-use std::mem;
-use std::ptr;
-use std::rc::Rc;
-use std::fmt;
 use super::destructor::{self, Destructor};
-use crate::ffi::*;
+use crate::{ffi::*, media, Chapter, ChapterMut, DictionaryRef, Stream, StreamMut};
 use libc::{c_int, c_uint};
-use crate::{media, Chapter, ChapterMut, DictionaryRef, Stream, StreamMut};
+use std::{fmt, mem, ptr, rc::Rc};
 
 pub struct Context {
     ptr: *mut AVFormatContext,
@@ -17,7 +13,7 @@ unsafe impl Send for Context {}
 impl Context {
     pub unsafe fn wrap(ptr: *mut AVFormatContext, mode: destructor::Mode) -> Self {
         Context {
-            ptr: ptr,
+            ptr,
             dtor: Rc::new(Destructor::new(ptr, mode)),
         }
     }
@@ -43,7 +39,8 @@ impl Context {
         unsafe {
             if index >= self.nb_streams() as usize {
                 None
-            } else {
+            }
+            else {
                 Some(Stream::wrap(self, index))
             }
         }
@@ -56,7 +53,8 @@ impl Context {
         unsafe {
             if index >= self.nb_streams() as usize {
                 None
-            } else {
+            }
+            else {
                 Some(StreamMut::wrap(self, index))
             }
         }
@@ -95,7 +93,8 @@ impl Context {
         unsafe {
             if index >= self.nb_chapters() as usize {
                 None
-            } else {
+            }
+            else {
                 Some(Chapter::wrap(self, index))
             }
         }
@@ -108,7 +107,8 @@ impl Context {
         unsafe {
             if index >= self.nb_chapters() as usize {
                 None
-            } else {
+            }
+            else {
                 Some(ChapterMut::wrap(self, index))
             }
         }
@@ -137,7 +137,7 @@ pub struct Best<'a> {
 impl<'a> Best<'a> {
     pub unsafe fn new<'b, 'c: 'b>(context: &'c Context) -> Best<'b> {
         Best {
-            context: context,
+            context,
 
             wanted: -1,
             related: -1,
@@ -177,7 +177,8 @@ impl<'a> Best<'a> {
 
             if index >= 0 && !decoder.is_null() {
                 Some(Stream::wrap(self.context, index as usize))
-            } else {
+            }
+            else {
                 None
             }
         }
@@ -192,7 +193,7 @@ pub struct StreamIter<'a> {
 impl<'a> StreamIter<'a> {
     pub fn new<'s, 'c: 's>(context: &'c Context) -> StreamIter<'s> {
         StreamIter {
-            context: context,
+            context,
             current: 0,
         }
     }
@@ -241,11 +242,11 @@ impl<'a> Iterator for StreamIter<'a> {
     fn size_hint(&self) -> (usize, Option<usize>) {
         let length = self.context.nb_streams() as usize;
 
-            (
-                length - self.current as usize,
-                Some(length - self.current as usize),
-            )
-        }
+        (
+            length - self.current as usize,
+            Some(length - self.current as usize),
+        )
+    }
 }
 
 impl<'a> ExactSizeIterator for StreamIter<'a> {}
@@ -258,7 +259,7 @@ pub struct StreamIterMut<'a> {
 impl<'a> StreamIterMut<'a> {
     pub fn new<'s, 'c: 's>(context: &'c mut Context) -> StreamIterMut<'s> {
         StreamIterMut {
-            context: context,
+            context,
             current: 0,
         }
     }
@@ -269,9 +270,9 @@ impl<'a> Iterator for StreamIterMut<'a> {
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
         if self.current >= self.context.nb_streams() {
-                return None;
-            }
-            self.current += 1;
+            return None;
+        }
+        self.current += 1;
 
         unsafe {
             Some(StreamMut::wrap(
@@ -284,11 +285,11 @@ impl<'a> Iterator for StreamIterMut<'a> {
     fn size_hint(&self) -> (usize, Option<usize>) {
         let length = self.context.nb_streams() as usize;
 
-            (
-                length - self.current as usize,
-                Some(length - self.current as usize),
-            )
-        }
+        (
+            length - self.current as usize,
+            Some(length - self.current as usize),
+        )
+    }
 }
 
 impl<'a> ExactSizeIterator for StreamIterMut<'a> {}
@@ -301,7 +302,7 @@ pub struct ChapterIter<'a> {
 impl<'a> ChapterIter<'a> {
     pub fn new<'s, 'c: 's>(context: &'c Context) -> ChapterIter<'s> {
         ChapterIter {
-            context: context,
+            context,
             current: 0,
         }
     }
@@ -344,7 +345,7 @@ pub struct ChapterIterMut<'a> {
 impl<'a> ChapterIterMut<'a> {
     pub fn new<'s, 'c: 's>(context: &'c mut Context) -> ChapterIterMut<'s> {
         ChapterIterMut {
-            context: context,
+            context,
             current: 0,
         }
     }

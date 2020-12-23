@@ -1,13 +1,12 @@
-use std::ffi::CString;
-use std::mem;
-use std::ops::{Deref, DerefMut};
-use std::ptr;
+use std::{
+    ffi::CString,
+    mem,
+    ops::{Deref, DerefMut},
+    ptr,
+};
 
-use super::common::Context;
-use super::destructor;
-use crate::ffi::*;
-use crate::util::range::Range;
-use crate::{format, Codec, Error, Packet, Stream};
+use super::{common::Context, destructor};
+use crate::{ffi::*, format, util::range::Range, Codec, Error, Packet, Stream};
 
 pub struct Input {
     ptr: *mut AVFormatContext,
@@ -19,7 +18,7 @@ unsafe impl Send for Input {}
 impl Input {
     pub unsafe fn wrap(ptr: *mut AVFormatContext) -> Self {
         Input {
-            ptr: ptr,
+            ptr,
             ctx: Context::wrap(ptr, destructor::Mode::Input),
         }
     }
@@ -44,7 +43,8 @@ impl Input {
 
             if ptr.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(Codec::wrap(ptr))
             }
         }
@@ -56,7 +56,8 @@ impl Input {
 
             if ptr.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(Codec::wrap(ptr))
             }
         }
@@ -68,7 +69,8 @@ impl Input {
 
             if ptr.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(Codec::wrap(ptr))
             }
         }
@@ -80,7 +82,8 @@ impl Input {
 
             if ptr.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(Codec::wrap(ptr))
             }
         }
@@ -149,7 +152,7 @@ pub struct PacketIter<'a> {
 
 impl<'a> PacketIter<'a> {
     pub fn new(context: &mut Input) -> PacketIter {
-        PacketIter { context: context }
+        PacketIter { context }
     }
 }
 

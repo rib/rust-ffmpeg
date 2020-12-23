@@ -1,5 +1,4 @@
-use std::marker::PhantomData;
-use std::slice;
+use std::{marker::PhantomData, slice};
 
 use crate::ffi::*;
 use libc::{c_double, c_int};
@@ -14,7 +13,7 @@ pub struct Vector<'a> {
 impl<'a> Vector<'a> {
     pub unsafe fn wrap(ptr: *mut SwsVector) -> Self {
         Vector {
-            ptr: ptr,
+            ptr,
             _own: false,
             _marker: PhantomData,
         }

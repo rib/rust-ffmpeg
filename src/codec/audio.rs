@@ -1,8 +1,7 @@
 use std::ops::Deref;
 
 use super::codec::Codec;
-use crate::ffi::*;
-use crate::{format, ChannelLayout};
+use crate::{ffi::*, format, ChannelLayout};
 
 #[derive(PartialEq, Eq, Copy, Clone)]
 pub struct Audio {
@@ -11,7 +10,7 @@ pub struct Audio {
 
 impl Audio {
     pub unsafe fn new(codec: Codec) -> Audio {
-        Audio { codec: codec }
+        Audio { codec }
     }
 }
 
@@ -20,7 +19,8 @@ impl Audio {
         unsafe {
             if (*self.as_ptr()).supported_samplerates.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(RateIter::new((*self.codec.as_ptr()).supported_samplerates))
             }
         }
@@ -30,7 +30,8 @@ impl Audio {
         unsafe {
             if (*self.codec.as_ptr()).sample_fmts.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(FormatIter::new((*self.codec.as_ptr()).sample_fmts))
             }
         }
@@ -40,7 +41,8 @@ impl Audio {
         unsafe {
             if (*self.codec.as_ptr()).channel_layouts.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(ChannelLayoutIter::new(
                     (*self.codec.as_ptr()).channel_layouts,
                 ))
@@ -63,7 +65,7 @@ pub struct RateIter {
 
 impl RateIter {
     pub fn new(ptr: *const i32) -> Self {
-        RateIter { ptr: ptr }
+        RateIter { ptr }
     }
 }
 
@@ -90,7 +92,7 @@ pub struct FormatIter {
 
 impl FormatIter {
     pub fn new(ptr: *const AVSampleFormat) -> Self {
-        FormatIter { ptr: ptr }
+        FormatIter { ptr }
     }
 }
 
@@ -117,14 +119,15 @@ pub struct ChannelLayoutIter {
 
 impl ChannelLayoutIter {
     pub fn new(ptr: *const u64) -> Self {
-        ChannelLayoutIter { ptr: ptr }
+        ChannelLayoutIter { ptr }
     }
 
     pub fn best(self, max: i32) -> ChannelLayout {
         self.fold(crate::channel_layout::ChannelLayout::MONO, |acc, cur| {
             if cur.channels() > acc.channels() && cur.channels() <= max {
                 cur
-            } else {
+            }
+            else {
                 acc
             }
         })

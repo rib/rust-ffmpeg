@@ -1,9 +1,4 @@
-use std::error;
-use std::ffi::CStr;
-use std::fmt;
-use std::io;
-use std::os::raw::c_char;
-use std::str::from_utf8_unchecked;
+use std::{error, ffi::CStr, fmt, io, os::raw::c_char, str::from_utf8_unchecked};
 
 use crate::ffi::*;
 use libc::c_int;
@@ -120,7 +115,9 @@ impl From<Error> for io::Error {
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        f.write_str(unsafe { from_utf8_unchecked(CStr::from_ptr(STRINGS[index(self)].as_ptr()).to_bytes()) })
+        f.write_str(unsafe {
+            from_utf8_unchecked(CStr::from_ptr(STRINGS[index(self)].as_ptr()).to_bytes())
+        })
     }
 }
 
@@ -313,4 +310,4 @@ pub fn register_all() {
     }
 }
 
-impl error::Error for Error { }
+impl error::Error for Error {}

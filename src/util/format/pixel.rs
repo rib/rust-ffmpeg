@@ -5,8 +5,7 @@ use std::{
 
 use thiserror::Error;
 
-use crate::ffi::AVPixelFormat::*;
-use crate::ffi::*;
+use crate::ffi::{AVPixelFormat::*, *};
 
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
 pub enum Pixel {
@@ -960,7 +959,8 @@ impl FromStr for Pixel {
 
         if format == Pixel::None {
             Err(ParsePixelError::UnknownFormat)
-        } else {
+        }
+        else {
             Ok(format)
         }
     }

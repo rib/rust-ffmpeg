@@ -10,8 +10,7 @@ pub use self::audio::Audio;
 pub mod flag;
 pub use self::flag::Flags;
 
-use crate::ffi::*;
-use crate::{Dictionary, DictionaryRef};
+use crate::{ffi::*, Dictionary, DictionaryRef};
 use libc::c_int;
 
 #[derive(PartialEq, Eq, Copy, Clone, Debug)]
@@ -37,10 +36,7 @@ unsafe impl Sync for Frame {}
 impl Frame {
     #[inline(always)]
     pub unsafe fn wrap(ptr: *mut AVFrame) -> Self {
-        Frame {
-            ptr: ptr,
-            _own: false,
-        }
+        Frame { ptr, _own: false }
     }
 
     #[inline(always)]
@@ -161,7 +157,8 @@ impl Frame {
 
             if ptr.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(SideData::wrap(ptr))
             }
         }
@@ -174,7 +171,8 @@ impl Frame {
 
             if ptr.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(SideData::wrap(ptr))
             }
         }

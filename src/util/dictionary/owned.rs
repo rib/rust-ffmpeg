@@ -1,9 +1,11 @@
-use std::iter::FromIterator;
-use std::ops::{Deref, DerefMut};
-use std::ptr;
-use std::fmt;
 use super::mutable;
 use crate::ffi::*;
+use std::{
+    fmt,
+    iter::FromIterator,
+    ops::{Deref, DerefMut},
+    ptr,
+};
 
 pub struct Owned<'a> {
     inner: mutable::Ref<'a>,

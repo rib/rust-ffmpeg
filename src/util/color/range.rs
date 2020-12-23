@@ -1,5 +1,4 @@
-use crate::ffi::AVColorRange::*;
-use crate::ffi::*;
+use crate::ffi::{AVColorRange::*, *};
 
 #[derive(Eq, PartialEq, Clone, Copy, Debug)]
 pub enum Range {

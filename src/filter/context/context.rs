@@ -1,9 +1,8 @@
 use std::marker::PhantomData;
 
 use super::{Sink, Source};
-use crate::ffi::*;
+use crate::{ffi::*, format, option, ChannelLayout};
 use libc::c_void;
-use crate::{format, option, ChannelLayout};
 
 pub struct Context<'a> {
     ptr: *mut AVFilterContext,
@@ -14,7 +13,7 @@ pub struct Context<'a> {
 impl<'a> Context<'a> {
     pub unsafe fn wrap(ptr: *mut AVFilterContext) -> Self {
         Context {
-            ptr: ptr,
+            ptr,
             _marker: PhantomData,
         }
     }

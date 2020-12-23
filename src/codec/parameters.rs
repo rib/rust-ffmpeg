@@ -1,8 +1,7 @@
 use std::rc::Rc;
 
 use super::{Context, Id};
-use crate::ffi::*;
-use crate::media;
+use crate::{ffi::*, media};
 
 pub struct Parameters {
     ptr: *mut AVCodecParameters,
@@ -13,10 +12,7 @@ unsafe impl Send for Parameters {}
 
 impl Parameters {
     pub unsafe fn wrap(ptr: *mut AVCodecParameters, owner: Option<Rc<dyn Drop>>) -> Self {
-        Parameters {
-            ptr: ptr,
-            owner: owner,
-        }
+        Parameters { ptr, owner }
     }
 
     pub unsafe fn as_ptr(&self) -> *const AVCodecParameters {

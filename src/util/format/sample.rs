@@ -1,12 +1,12 @@
-use std::ffi::{CStr, CString};
-use std::mem;
-use std::ops::Index;
-use std::ptr;
-use std::slice;
-use std::str::from_utf8_unchecked;
+use std::{
+    ffi::{CStr, CString},
+    mem,
+    ops::Index,
+    ptr, slice,
+    str::from_utf8_unchecked,
+};
 
-use crate::ffi::AVSampleFormat::*;
-use crate::ffi::*;
+use crate::ffi::{AVSampleFormat::*, *};
 use libc::c_int;
 
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
@@ -153,10 +153,10 @@ impl Buffer {
     pub fn new(format: Sample, channels: u16, samples: usize, align: bool) -> Self {
         unsafe {
             let mut buf = Buffer {
-                format: format,
-                channels: channels,
-                samples: samples,
-                align: align,
+                format,
+                channels,
+                samples,
+                align,
 
                 buffer: ptr::null_mut(),
                 size: 0,

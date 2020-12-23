@@ -1,8 +1,7 @@
 use std::ptr;
 
 use super::Context;
-use crate::ffi::*;
-use crate::{Error, Frame};
+use crate::{ffi::*, Error, Frame};
 
 pub struct Source<'a> {
     ctx: &'a mut Context<'a>,
@@ -10,7 +9,7 @@ pub struct Source<'a> {
 
 impl<'a> Source<'a> {
     pub unsafe fn wrap<'b>(ctx: &'b mut Context<'b>) -> Source<'b> {
-        Source { ctx: ctx }
+        Source { ctx }
     }
 }
 

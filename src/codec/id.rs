@@ -1,9 +1,9 @@
-use std::ffi::CStr;
-use std::str::from_utf8_unchecked;
+use std::{ffi::CStr, str::from_utf8_unchecked};
 
-use crate::ffi::AVCodecID::*;
-use crate::ffi::*;
-use crate::util::media;
+use crate::{
+    ffi::{AVCodecID::*, *},
+    util::media,
+};
 
 #[allow(non_camel_case_types)]
 #[derive(Eq, PartialEq, Clone, Copy, Debug)]
@@ -524,7 +524,7 @@ impl From<AVCodecID> for Id {
         match value {
             AV_CODEC_ID_NONE => Id::None,
 
-            /* video codecs */
+            // video codecs
             AV_CODEC_ID_MPEG1VIDEO => Id::MPEG1VIDEO,
             AV_CODEC_ID_MPEG2VIDEO => Id::MPEG2VIDEO,
             #[cfg(feature = "ff_api_xvmc")]
@@ -744,7 +744,7 @@ impl From<AVCodecID> for Id {
             AV_CODEC_ID_SHEERVIDEO => Id::SHEERVIDEO,
             AV_CODEC_ID_YLC => Id::YLC,
 
-            /* various PCM "codecs" */
+            // various PCM "codecs"
             // AV_CODEC_ID_PCM_S16LE => Id::PCM_S16LE,
             AV_CODEC_ID_PCM_S16BE => Id::PCM_S16BE,
             AV_CODEC_ID_PCM_U16LE => Id::PCM_U16LE,
@@ -785,7 +785,7 @@ impl From<AVCodecID> for Id {
             #[cfg(feature = "ffmpeg_4_1")]
             AV_CODEC_ID_ATRAC9 => Id::ATRAC9,
 
-            /* various ADPCM codecs */
+            // various ADPCM codecs
             AV_CODEC_ID_ADPCM_IMA_QT => Id::ADPCM_IMA_QT,
             AV_CODEC_ID_ADPCM_IMA_WAV => Id::ADPCM_IMA_WAV,
             AV_CODEC_ID_ADPCM_IMA_DK3 => Id::ADPCM_IMA_DK3,
@@ -829,15 +829,15 @@ impl From<AVCodecID> for Id {
             AV_CODEC_ID_ADPCM_IMA_DAT4 => Id::ADPCM_IMA_DAT4,
             AV_CODEC_ID_ADPCM_MTAF => Id::ADPCM_MTAF,
 
-            /* AMR */
+            // AMR
             AV_CODEC_ID_AMR_NB => Id::AMR_NB,
             AV_CODEC_ID_AMR_WB => Id::AMR_WB,
 
-            /* RealAudio codecs*/
+            // RealAudio codecs
             AV_CODEC_ID_RA_144 => Id::RA_144,
             AV_CODEC_ID_RA_288 => Id::RA_288,
 
-            /* various DPCM codecs */
+            // various DPCM codecs
             AV_CODEC_ID_ROQ_DPCM => Id::ROQ_DPCM,
             AV_CODEC_ID_INTERPLAY_DPCM => Id::INTERPLAY_DPCM,
             AV_CODEC_ID_XAN_DPCM => Id::XAN_DPCM,
@@ -845,7 +845,7 @@ impl From<AVCodecID> for Id {
 
             AV_CODEC_ID_SDX2_DPCM => Id::SDX2_DPCM,
 
-            /* audio codecs */
+            // audio codecs
             AV_CODEC_ID_MP2 => Id::MP2,
             AV_CODEC_ID_MP3 => Id::MP3,
             AV_CODEC_ID_AAC => Id::AAC,
@@ -933,7 +933,7 @@ impl From<AVCodecID> for Id {
             AV_CODEC_ID_XMA2 => Id::XMA2,
             AV_CODEC_ID_DST => Id::DST,
 
-            /* subtitle codecs */
+            // subtitle codecs
             // AV_CODEC_ID_DVD_SUBTITLE => Id::DVD_SUBTITLE,
             AV_CODEC_ID_DVB_SUBTITLE => Id::DVB_SUBTITLE,
             AV_CODEC_ID_TEXT => Id::TEXT,
@@ -960,7 +960,7 @@ impl From<AVCodecID> for Id {
             AV_CODEC_ID_ASS => Id::ASS,
             AV_CODEC_ID_HDMV_TEXT_SUBTITLE => Id::HDMV_TEXT_SUBTITLE,
 
-            /* other specific kind of codecs (generally used for attachments) */
+            // other specific kind of codecs (generally used for attachments)
             AV_CODEC_ID_SCTE_35 => Id::SCTE_35,
             AV_CODEC_ID_BINTEXT => Id::BINTEXT,
             AV_CODEC_ID_XBIN => Id::XBIN,
@@ -1028,7 +1028,7 @@ impl Into<AVCodecID> for Id {
         match self {
             Id::None => AV_CODEC_ID_NONE,
 
-            /* video codecs */
+            // video codecs
             Id::MPEG1VIDEO => AV_CODEC_ID_MPEG1VIDEO,
             Id::MPEG2VIDEO => AV_CODEC_ID_MPEG2VIDEO,
             #[cfg(feature = "ff_api_xvmc")]
@@ -1250,7 +1250,7 @@ impl Into<AVCodecID> for Id {
             Id::SHEERVIDEO => AV_CODEC_ID_SHEERVIDEO,
             Id::YLC => AV_CODEC_ID_YLC,
 
-            /* various PCM "codecs" */
+            // various PCM "codecs"
             Id::PCM_S16BE => AV_CODEC_ID_PCM_S16BE,
             Id::PCM_U16LE => AV_CODEC_ID_PCM_U16LE,
             Id::PCM_U16BE => AV_CODEC_ID_PCM_U16BE,
@@ -1285,7 +1285,7 @@ impl Into<AVCodecID> for Id {
             Id::PCM_S64LE => AV_CODEC_ID_PCM_S64LE,
             Id::PCM_S64BE => AV_CODEC_ID_PCM_S64BE,
 
-            /* various ADPCM codecs */
+            // various ADPCM codecs
             Id::ADPCM_IMA_QT => AV_CODEC_ID_ADPCM_IMA_QT,
             Id::ADPCM_IMA_WAV => AV_CODEC_ID_ADPCM_IMA_WAV,
             Id::ADPCM_IMA_DK3 => AV_CODEC_ID_ADPCM_IMA_DK3,
@@ -1329,15 +1329,15 @@ impl Into<AVCodecID> for Id {
             Id::ADPCM_IMA_DAT4 => AV_CODEC_ID_ADPCM_IMA_DAT4,
             Id::ADPCM_MTAF => AV_CODEC_ID_ADPCM_MTAF,
 
-            /* AMR */
+            // AMR
             Id::AMR_NB => AV_CODEC_ID_AMR_NB,
             Id::AMR_WB => AV_CODEC_ID_AMR_WB,
 
-            /* RealAudio codecs*/
+            // RealAudio codecs
             Id::RA_144 => AV_CODEC_ID_RA_144,
             Id::RA_288 => AV_CODEC_ID_RA_288,
 
-            /* various DPCM codecs */
+            // various DPCM codecs
             Id::ROQ_DPCM => AV_CODEC_ID_ROQ_DPCM,
             Id::INTERPLAY_DPCM => AV_CODEC_ID_INTERPLAY_DPCM,
             Id::XAN_DPCM => AV_CODEC_ID_XAN_DPCM,
@@ -1345,7 +1345,7 @@ impl Into<AVCodecID> for Id {
 
             Id::SDX2_DPCM => AV_CODEC_ID_SDX2_DPCM,
 
-            /* audio codecs */
+            // audio codecs
             Id::MP2 => AV_CODEC_ID_MP2,
             Id::MP3 => AV_CODEC_ID_MP3,
             Id::AAC => AV_CODEC_ID_AAC,
@@ -1433,7 +1433,7 @@ impl Into<AVCodecID> for Id {
             Id::XMA2 => AV_CODEC_ID_XMA2,
             Id::DST => AV_CODEC_ID_DST,
 
-            /* subtitle codecs */
+            // subtitle codecs
             Id::DVB_SUBTITLE => AV_CODEC_ID_DVB_SUBTITLE,
 
             Id::TEXT => AV_CODEC_ID_TEXT,
@@ -1460,7 +1460,7 @@ impl Into<AVCodecID> for Id {
             Id::ASS => AV_CODEC_ID_ASS,
             Id::HDMV_TEXT_SUBTITLE => AV_CODEC_ID_HDMV_TEXT_SUBTITLE,
 
-            /* other specific kind of codecs (generally used for attachments) */
+            // other specific kind of codecs (generally used for attachments)
             Id::SCTE_35 => AV_CODEC_ID_SCTE_35,
             Id::BINTEXT => AV_CODEC_ID_BINTEXT,
             Id::XBIN => AV_CODEC_ID_XBIN,

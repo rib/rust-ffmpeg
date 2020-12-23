@@ -1,5 +1,4 @@
-use std::ffi::CStr;
-use std::str::from_utf8_unchecked;
+use std::{ffi::CStr, str::from_utf8_unchecked};
 
 use crate::ffi::*;
 
@@ -9,7 +8,7 @@ pub struct Input {
 
 impl Input {
     pub unsafe fn wrap(ptr: *mut AVInputFormat) -> Self {
-        Input { ptr: ptr }
+        Input { ptr }
     }
 
     pub unsafe fn as_ptr(&self) -> *const AVInputFormat {
@@ -36,7 +35,8 @@ impl Input {
 
             if ptr.is_null() {
                 Vec::new()
-            } else {
+            }
+            else {
                 from_utf8_unchecked(CStr::from_ptr(ptr).to_bytes())
                     .split(',')
                     .collect()
@@ -50,7 +50,8 @@ impl Input {
 
             if ptr.is_null() {
                 Vec::new()
-            } else {
+            }
+            else {
                 from_utf8_unchecked(CStr::from_ptr(ptr).to_bytes())
                     .split(',')
                     .collect()

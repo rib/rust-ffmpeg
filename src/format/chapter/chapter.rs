@@ -1,5 +1,4 @@
-use crate::ffi::*;
-use crate::{DictionaryRef, Rational};
+use crate::{ffi::*, DictionaryRef, Rational};
 
 use crate::format::context::common::Context;
 
@@ -12,10 +11,7 @@ pub struct Chapter<'a> {
 
 impl<'a> Chapter<'a> {
     pub unsafe fn wrap(context: &Context, index: usize) -> Chapter {
-        Chapter {
-            context: context,
-            index: index,
-        }
+        Chapter { context, index }
     }
 
     pub unsafe fn as_ptr(&self) -> *const AVChapter {

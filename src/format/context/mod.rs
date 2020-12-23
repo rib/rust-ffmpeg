@@ -21,7 +21,8 @@ impl Context {
     pub fn is_input(&self) -> bool {
         if let Context::Input(..) = *self {
             true
-        } else {
+        }
+        else {
             false
         }
     }
@@ -37,7 +38,8 @@ impl Context {
     pub fn is_output(&self) -> bool {
         if let Context::Output(..) = *self {
             true
-        } else {
+        }
+        else {
             false
         }
     }

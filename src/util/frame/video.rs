@@ -1,15 +1,18 @@
-use std::mem;
-use std::ops::{Deref, DerefMut};
-use std::slice;
+use std::{
+    mem,
+    ops::{Deref, DerefMut},
+    slice,
+};
 
 use super::Frame;
-use crate::color;
-use crate::ffi::*;
+use crate::{
+    color,
+    ffi::*,
+    picture,
+    util::{chroma, format},
+    Rational,
+};
 use libc::c_int;
-use crate::picture;
-use crate::util::chroma;
-use crate::util::format;
-use crate::Rational;
 
 #[derive(PartialEq, Eq)]
 pub struct Video(Frame);
@@ -51,7 +54,8 @@ impl Video {
         unsafe {
             if (*self.as_ptr()).format == -1 {
                 format::Pixel::None
-            } else {
+            }
+            else {
                 format::Pixel::from(mem::transmute::<_, AVPixelFormat>((*self.as_ptr()).format))
             }
         }
@@ -224,7 +228,8 @@ impl Video {
         if let Some(desc) = self.format().descriptor() {
             let s = desc.log2_chroma_w();
             (self.width() + (1 << s) - 1) >> s
-        } else {
+        }
+        else {
             self.width()
         }
     }
@@ -243,7 +248,8 @@ impl Video {
         if let Some(desc) = self.format().descriptor() {
             let s = desc.log2_chroma_h();
             (self.height() + (1 << s) - 1) >> s
-        } else {
+        }
+        else {
             self.height()
         }
     }
@@ -399,19 +405,27 @@ unsafe impl Component for (u8, u8, u8) {
 unsafe impl Component for [u8; 4] {
     #[inline(always)]
     fn is_valid(format: format::Pixel) -> bool {
-        format == format::Pixel::RGBA || format == format::Pixel::BGRA
-            || format == format::Pixel::ARGB || format == format::Pixel::ABGR
-            || format == format::Pixel::RGBZ || format == format::Pixel::BGRZ
-            || format == format::Pixel::ZRGB || format == format::Pixel::ZBGR
+        format == format::Pixel::RGBA
+            || format == format::Pixel::BGRA
+            || format == format::Pixel::ARGB
+            || format == format::Pixel::ABGR
+            || format == format::Pixel::RGBZ
+            || format == format::Pixel::BGRZ
+            || format == format::Pixel::ZRGB
+            || format == format::Pixel::ZBGR
     }
 }
 
 unsafe impl Component for (u8, u8, u8, u8) {
     #[inline(always)]
     fn is_valid(format: format::Pixel) -> bool {
-        format == format::Pixel::RGBA || format == format::Pixel::BGRA
-            || format == format::Pixel::ARGB || format == format::Pixel::ABGR
-            || format == format::Pixel::RGBZ || format == format::Pixel::BGRZ
-            || format == format::Pixel::ZRGB || format == format::Pixel::ZBGR
+        format == format::Pixel::RGBA
+            || format == format::Pixel::BGRA
+            || format == format::Pixel::ARGB
+            || format == format::Pixel::ABGR
+            || format == format::Pixel::RGBZ
+            || format == format::Pixel::BGRZ
+            || format == format::Pixel::ZRGB
+            || format == format::Pixel::ZBGR
     }
 }

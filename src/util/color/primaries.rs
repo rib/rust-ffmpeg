@@ -1,5 +1,4 @@
-use crate::ffi::AVColorPrimaries::*;
-use crate::ffi::*;
+use crate::ffi::{AVColorPrimaries::*, *};
 
 #[derive(Eq, PartialEq, Clone, Copy, Debug)]
 pub enum Primaries {

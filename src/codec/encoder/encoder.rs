@@ -1,9 +1,8 @@
 use std::ops::{Deref, DerefMut};
 
 use super::{audio, subtitle, video};
-use crate::codec::Context;
+use crate::{codec::Context, media, Error, Rational};
 use libc::c_int;
-use crate::{media, Error, Rational};
 
 pub struct Encoder(pub Context);
 
@@ -84,7 +83,8 @@ impl Encoder {
         unsafe {
             if let Some(value) = value {
                 (*self.as_mut_ptr()).compression_level = value as c_int;
-            } else {
+            }
+            else {
                 (*self.as_mut_ptr()).compression_level = -1;
             }
         }
@@ -100,7 +100,8 @@ impl Encoder {
         unsafe {
             if let Some(value) = value {
                 (*self.as_mut_ptr()).framerate = value.into().into();
-            } else {
+            }
+            else {
                 (*self.as_mut_ptr()).framerate.num = 0;
                 (*self.as_mut_ptr()).framerate.den = 1;
             }

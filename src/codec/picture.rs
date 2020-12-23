@@ -1,11 +1,7 @@
-use std::marker::PhantomData;
-use std::mem;
-use std::slice;
+use std::{marker::PhantomData, mem, slice};
 
-use crate::ffi::*;
-use crate::format;
+use crate::{ffi::*, format, Error};
 use libc::{c_int, size_t};
-use crate::Error;
 
 pub struct Picture<'a> {
     ptr: *mut AVPicture,
@@ -26,11 +22,11 @@ impl<'a> Picture<'a> {
         height: u32,
     ) -> Self {
         Picture {
-            ptr: ptr,
+            ptr,
 
-            format: format,
-            width: width,
-            height: height,
+            format,
+            width,
+            height,
 
             _own: false,
             _marker: PhantomData,
@@ -62,11 +58,11 @@ impl<'a> Picture<'a> {
 
             match avpicture_alloc(ptr, format.into(), width as c_int, height as c_int) {
                 0 => Ok(Picture {
-                    ptr: ptr,
+                    ptr,
 
-                    format: format,
-                    width: width,
-                    height: height,
+                    format,
+                    width,
+                    height,
 
                     _own: true,
                     _marker: PhantomData,

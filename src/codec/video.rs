@@ -1,8 +1,7 @@
 use std::ops::Deref;
 
 use super::codec::Codec;
-use crate::ffi::*;
-use crate::{format, Rational};
+use crate::{ffi::*, format, Rational};
 
 #[derive(PartialEq, Eq, Copy, Clone)]
 pub struct Video {
@@ -11,7 +10,7 @@ pub struct Video {
 
 impl Video {
     pub unsafe fn new(codec: Codec) -> Video {
-        Video { codec: codec }
+        Video { codec }
     }
 }
 
@@ -20,7 +19,8 @@ impl Video {
         unsafe {
             if (*self.codec.as_ptr()).supported_framerates.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(RateIter::new((*self.codec.as_ptr()).supported_framerates))
             }
         }
@@ -30,7 +30,8 @@ impl Video {
         unsafe {
             if (*self.codec.as_ptr()).pix_fmts.is_null() {
                 None
-            } else {
+            }
+            else {
                 Some(FormatIter::new((*self.codec.as_ptr()).pix_fmts))
             }
         }
@@ -51,7 +52,7 @@ pub struct RateIter {
 
 impl RateIter {
     pub fn new(ptr: *const AVRational) -> Self {
-        RateIter { ptr: ptr }
+        RateIter { ptr }
     }
 }
 
@@ -78,7 +79,7 @@ pub struct FormatIter {
 
 impl FormatIter {
     pub fn new(ptr: *const AVPixelFormat) -> Self {
-        FormatIter { ptr: ptr }
+        FormatIter { ptr }
     }
 }
 
