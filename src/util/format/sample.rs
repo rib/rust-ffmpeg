@@ -10,6 +10,8 @@ use crate::ffi::{AVSampleFormat::*, *};
 use libc::c_int;
 
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
 pub enum Sample {
     None,
 
@@ -21,6 +23,8 @@ pub enum Sample {
     F64(Type),
 }
 
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
 pub enum Type {
     Packed,
